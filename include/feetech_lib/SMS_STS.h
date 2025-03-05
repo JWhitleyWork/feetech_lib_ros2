@@ -78,6 +78,7 @@ public:
 	virtual int WheelMode(u8 ID);//恒速模式
 	virtual int WriteSpe(u8 ID, s16 Speed, u8 ACC = 0);//恒速模式控制指令
 	virtual int PWMMode(u8 ID);//PWM模式
+	virtual int PositionMode(u8 ID);//Position模式
 	virtual int WritePWM(u8 ID, s16 pwmOut);//PWM模式控制指令
     virtual int EnableTorque(u8 ID, u8 Enable);//扭力控制指令
 	virtual int unLockEprom(u8 ID);//eprom解锁

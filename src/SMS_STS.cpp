@@ -116,6 +116,10 @@ int SMS_STS::PWMMode(u8 ID)
 	return writeByte(ID, SMS_STS_MODE, 2);		
 }
 
+int SMS_STS::PositionMode(u8 ID)
+{
+	return writeByte(ID, SMS_STS_MODE, 4);		
+}
 
 int SMS_STS::WritePWM(u8 ID, s16 pwmOut)
 
