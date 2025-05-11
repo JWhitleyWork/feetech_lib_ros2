@@ -1,41 +1,47 @@
-################################################################################
-# Set minimum required version of cmake, project name and compile options
-################################################################################
-cmake_Minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.5)
 project(feetech_lib)
 
-################################################################################
-# Find catkin packages and libraries for catkin and system dependencies
-################################################################################
-find_package(catkin REQUIRED COMPONENTS
-  roscpp
-  rospy
-  std_msgs
+# Default to C++17
+if(NOT CMAKE_CXX_STANDARD)
+  set(CMAKE_CXX_STANDARD 17)
+endif()
+
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  add_compile_options(-Wall -Wextra -Wpedantic)
+endif()
+
+find_package(ament_cmake_auto REQUIRED)
+ament_auto_find_build_dependencies()
+
+set(FEETECH_LIB_HEADERS
+  include/feetech_lib/INST.h
+  include/feetech_lib/SCS.h
+  include/feetech_lib/SCSCL.hpp
+  include/feetech_lib/SCSerial.hpp
+  include/feetech_lib/SCServo.hpp
+  include/feetech_lib/SMS_STS.hpp
+  include/feetech_lib/SMSBL.hpp
+  include/feetech_lib/SMSCL.hpp
 )
 
-################################################################################
-# Declare catkin specific configuration to be passed to dependent projects
-################################################################################
-catkin_package(
- INCLUDE_DIRS include
- LIBRARIES feetech_lib
- CATKIN_DEPENDS roscpp rospy std_msgs
+set(FEETECH_LIB_SOURCES
+  src/SCS.cpp
+  src/SCSCL.cpp
+  src/SCSerial.cpp
+  src/SCServo.cpp
+  src/SMS_STS.cpp
+  src/SMSBL.cpp
+  src/SMSCL.cpp
 )
 
-################################################################################
-# Build
-################################################################################
-include_directories(
-  ${PROJECT_SOURCE_DIR}/include/feetech_lib
-  ${catkin_INCLUDE_DIRS}
+ament_auto_add_library(feetech_lib SHARED
+  ${FEETECH_LIB_HEADERS}
+  ${FEETECH_LIB_SOURCES}
 )
 
-file(GLOB hdrs include/feetech_lib/*.h)
-file(GLOB srs src/*.cpp)
+if(BUILD_TESTING)
+  find_package(ament_lint_auto REQUIRED)
+  ament_lint_auto_find_test_dependencies()
+endif()
 
-add_library(feetech_lib ${hdrs} ${srs})
-add_dependencies(feetech_lib ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
-
-target_link_libraries(feetech_lib
-  ${catkin_LIBRARIES}
-)
+ament_auto_package()
