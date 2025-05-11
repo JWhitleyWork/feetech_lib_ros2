@@ -1,9 +1,9 @@
-﻿/*
- * SMS_STS.cpp
- * 飞特SMS/STS系列串行舵机应用层程序
- * 日期: 2021.12.8
- * 作者:
- */
+﻿// Copyright 2025 Electrified Autonomy, LLC  // NOLINT
+//
+// SMS_STS.cpp
+// 飞特SMS/STS系列串行舵机应用层程序
+// 日期: 2021.12.8
+// 作者:
 
 #include "feetech_lib/SMS_STS.hpp"
 
@@ -71,8 +71,8 @@ void SMS_STS::SyncWritePosEx(
   uint8_t ID[], uint8_t IDN, int16_t Position[], uint16_t Speed[],
   uint8_t ACC[])
 {
-
   uint8_t offbuf[IDN][7];
+
   for(uint8_t i = 0; i < IDN; i++) {
     if(Position[i] < 0) {
       Position[i] = -Position[i];
@@ -95,7 +95,7 @@ void SMS_STS::SyncWritePosEx(
     Host2SCS(bBuf + 5, bBuf + 6, V);
     memcpy(offbuf[i], bBuf, 7);
   }
-  snycWrite(ID, IDN, SMS_STS_ACC, (uint8_t *)offbuf, 7);
+  syncWrite(ID, IDN, SMS_STS_ACC, reinterpret_cast<uint8_t *>(offbuf), 7);
 }
 
 int32_t SMS_STS::WheelMode(uint8_t ID)

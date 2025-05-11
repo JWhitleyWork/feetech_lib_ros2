@@ -4,11 +4,10 @@
   <name>feetech_lib</name>
   <version>0.0.1</version>
   <description>Feetech servo driver package</description>
+  <maintainer email="lethiic@gmail.com">lethic</maintainer>
+  <license>MIT</license>
   <author email="lethiic@gmail.com">lethic</author>
   <author email="josh@electrifiedautonomy.com">Josh Whitley</author>
-  <maintainer email="lethiic@gmail.com">lethic</maintainer>
-
-  <license>MIT</license>
 
   <buildtool_depend>ament_cmake_auto</buildtool_depend>
 

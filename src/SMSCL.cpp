@@ -1,9 +1,9 @@
-/*
- * SMSCL.cpp
- * 飞特SMSCL系列串行舵机应用层程序
- * 日期: 2020.6.17
- * 作者:
- */
+// Copyright 2025 Electrified Autonomy, LLC
+//
+// SMSCL.cpp
+// 飞特SMSCL系列串行舵机应用层程序
+// 日期: 2020.6.17
+// 作者:
 
 #include "feetech_lib/SMSCL.hpp"
 
@@ -82,7 +82,7 @@ void SMSCL::SyncWritePosEx(
     Host2SCS(bBuf + 5, bBuf + 6, V);
     memcpy(offbuf[i], bBuf, 7);
   }
-  snycWrite(ID, IDN, SMSCL_ACC, (uint8_t *)offbuf, 7);
+  syncWrite(ID, IDN, SMSCL_ACC, reinterpret_cast<uint8_t *>(offbuf), 7);
 }
 
 int32_t SMSCL::WheelMode(uint8_t ID)

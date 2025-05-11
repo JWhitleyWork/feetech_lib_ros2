@@ -1,9 +1,10 @@
-/*
- * SCSerial.cpp
- * 飞特串行舵机硬件接口层程序
- * 日期: 2022.3.29
- * 作者:
- */
+// Copyright 2025 Electrified Autonomy, LLC
+//
+// SCSerial.cpp
+// 飞特串行舵机硬件接口层程序
+// 日期: 2022.3.29
+// 作者:
+
 
 #include "feetech_lib/SCSerial.hpp"
 
@@ -38,7 +39,6 @@ bool SCSerial::begin(int32_t baudRate, const char * serialPort)
     close(fd);
     fd = -1;
   }
-  //printf("servo port:%s\n", serialPort);
   if(serialPort == NULL) {
     return false;
   }
@@ -81,14 +81,14 @@ bool SCSerial::begin(int32_t baudRate, const char * serialPort)
   cfsetospeed(&curopt, CR_BAUDRATE);
 
   printf("serial speed %d\n", baudRate);
-    //Mostly 8N1
+  // Mostly 8N1
   curopt.c_cflag &= ~PARENB;
   curopt.c_cflag &= ~CSTOPB;
   curopt.c_cflag &= ~CSIZE;
   curopt.c_cflag |= CS8;
   curopt.c_cflag |= CREAD;
-  curopt.c_cflag |= CLOCAL;  //disable modem statuc check
-  cfmakeraw(&curopt);  //make raw mode
+  curopt.c_cflag |= CLOCAL;  // disable modem statuc check
+  cfmakeraw(&curopt);  // make raw mode
   curopt.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
   if(tcsetattr(fd, TCSANOW, &curopt) == 0) {
     return true;
@@ -150,19 +150,17 @@ int32_t SCSerial::readSCS(uint8_t *nDat, int32_t nLen)
   time.tv_sec = 0;
   time.tv_usec = IOTimeOut * 1000;
 
-    //使用select实现串口的多路通信
+  // Use select to implement serial port multi-channel communication
   while(1) {
     fs_sel = select(fd + 1, &fs_read, NULL, NULL, &time);
     if(fs_sel) {
       rvLen += read(fd, nDat + rvLen, nLen - rvLen);
-      //printf("nLen = %d rvLen = %d\n", nLen, rvLen);
       if(rvLen < nLen) {
         continue;
       } else {
         return rvLen;
       }
     } else {
-      //printf("serial read fd read return 0\n");
       return rvLen;
     }
   }

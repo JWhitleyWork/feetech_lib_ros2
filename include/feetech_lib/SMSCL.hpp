@@ -1,28 +1,28 @@
-/*
- * SMSCL.hpp
- * 飞特SMSCL系列串行舵机应用层程序
- * 日期: 2020.6.17
- * 作者:
- */
+// Copyright 2025 Electrified Autonomy, LLC  // NOLINT
+//
+// SMSCL.hpp
+// 飞特SMSCL系列串行舵机应用层程序
+// 日期: 2020.6.17
+// 作者:
 
 #ifndef FEETECH_LIB__SMSCL_HPP_
 #define FEETECH_LIB__SMSCL_HPP_
 
-#define SMSCL_1M 0
-#define SMSCL_0_5M 1
-#define SMSCL_250K 2
-#define SMSCL_128K 3
+#define SMSCL_1M     0
+#define SMSCL_0_5M   1
+#define SMSCL_250K   2
+#define SMSCL_128K   3
 #define SMSCL_115200 4
-#define SMSCL_76800     5
-#define SMSCL_57600     6
-#define SMSCL_38400     7
+#define SMSCL_76800  5
+#define SMSCL_57600  6
+#define SMSCL_38400  7
 
-//内存表定义
-//-------EPROM(只读)--------
+// 内存表定义
+// -------EPROM(只读)--------
 #define SMSCL_VERSION_L 3
 #define SMSCL_VERSION_H 4
 
-//-------EPROM(读写)--------
+// -------EPROM(读写)--------
 #define SMSCL_ID 5
 #define SMSCL_BAUD_RATE 6
 #define SMSCL_RETURN_DELAY_TIME 7
@@ -51,7 +51,7 @@
 #define SMSCL_MAX_CURRENT_L 36
 #define SMSCL_MAX_CURRENT_H 37
 
-//-------SRAM(读写)--------
+// -------SRAM(读写)--------
 #define SMSCL_TORQUE_ENABLE 40
 #define SMSCL_ACC 41
 #define SMSCL_GOAL_POSITION_L 42
@@ -62,7 +62,7 @@
 #define SMSCL_GOAL_SPEED_H 47
 #define SMSCL_LOCK 48
 
-//-------SRAM(只读)--------
+// -------SRAM(只读)--------
 #define SMSCL_PRESENT_POSITION_L 56
 #define SMSCL_PRESENT_POSITION_H 57
 #define SMSCL_PRESENT_SPEED_L 58
@@ -76,35 +76,39 @@
 #define SMSCL_PRESENT_CURRENT_L 69
 #define SMSCL_PRESENT_CURRENT_H 70
 
-#include "feetech_lib/SCSerial.hpp"
-
 #include <cstdint>
+
+#include "feetech_lib/SCSerial.hpp"
 
 class SMSCL : public SCSerial
 {
 public:
   SMSCL();
-  SMSCL(uint8_t End);
+  explicit SMSCL(uint8_t End);
   SMSCL(uint8_t End, uint8_t Level);
-  virtual int32_t WritePosEx(uint8_t ID, int16_t Position, uint16_t Speed, uint8_t ACC = 0);//普通写单个舵机位置指令
-  virtual int32_t RegWritePosEx(uint8_t ID, int16_t Position, uint16_t Speed, uint8_t ACC = 0);//异步写单个舵机位置指令(RegWriteAction生效)
+  virtual int32_t WritePosEx(
+                               // 普通写单个舵机位置指令
+    uint8_t ID, int16_t Position, uint16_t Speed, uint8_t ACC = 0);
+  virtual int32_t RegWritePosEx(
+                                  // 异步写单个舵机位置指令(RegWriteAction生效)
+    uint8_t ID, int16_t Position, uint16_t Speed, uint8_t ACC = 0);
   virtual void SyncWritePosEx(
-    uint8_t ID[], uint8_t IDN, int16_t Position[], uint16_t Speed[],
-    uint8_t ACC[]);                                                                                           //同步写多个舵机位置指令
-  virtual int32_t WheelMode(uint8_t ID);//恒速模式
-  virtual int32_t WriteSpe(uint8_t ID, int16_t Speed, uint8_t ACC = 0);//恒速模式控制指令
-  virtual int32_t EnableTorque(uint8_t ID, uint8_t Enable);//扭力控制指令
-  virtual int32_t unLockEprom(uint8_t ID);//eprom解锁
-  virtual int32_t LockEprom(uint8_t ID);//eprom加锁
-  virtual int32_t CalibrationOfs(uint8_t ID);//中位校准
-  virtual int32_t FeedBack(int32_t ID);//反馈舵机信息
-  virtual int32_t ReadPos(int32_t ID);//读位置
-  virtual int32_t ReadSpeed(int32_t ID);//读速度
-  virtual int32_t ReadLoad(int32_t ID);//读输出至电机的电压百分比(0~1000)
-  virtual int32_t ReadVoltage(int32_t ID);//读电压
-  virtual int32_t ReadTemper(int32_t ID);//读温度
-  virtual int32_t ReadMove(int32_t ID);//读移动状态
-  virtual int32_t ReadCurrent(int32_t ID);//读电流
+                                  // 同步写多个舵机位置指令
+    uint8_t ID[], uint8_t IDN, int16_t Position[], uint16_t Speed[], uint8_t ACC[]);
+  virtual int32_t WheelMode(uint8_t ID);       // 恒速模式
+  virtual int32_t WriteSpe(uint8_t ID, int16_t Speed, uint8_t ACC = 0);  // 恒速模式控制指令
+  virtual int32_t EnableTorque(uint8_t ID, uint8_t Enable);  // 扭力控制指令
+  virtual int32_t unLockEprom(uint8_t ID);     // eprom解锁
+  virtual int32_t LockEprom(uint8_t ID);       // eprom加锁
+  virtual int32_t CalibrationOfs(uint8_t ID);  // 中位校准
+  virtual int32_t FeedBack(int32_t ID);        // 反馈舵机信息
+  virtual int32_t ReadPos(int32_t ID);         // 读位置
+  virtual int32_t ReadSpeed(int32_t ID);       // 读速度
+  virtual int32_t ReadLoad(int32_t ID);        // 读输出至电机的电压百分比(0~1000)
+  virtual int32_t ReadVoltage(int32_t ID);     // 读电压
+  virtual int32_t ReadTemper(int32_t ID);      // 读温度
+  virtual int32_t ReadMove(int32_t ID);        // 读移动状态
+  virtual int32_t ReadCurrent(int32_t ID);     // 读电流
 
 private:
   uint8_t Mem[SMSCL_PRESENT_CURRENT_H - SMSCL_PRESENT_POSITION_L + 1];

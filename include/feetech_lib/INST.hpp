@@ -1,9 +1,9 @@
-/*
- * INST.hpp
- * 飞特串行舵机协议指令定义
- * 日期: 2021.12.8
- * 作者:
- */
+// Copyright 2025 Electrified Autonomy, LLC
+//
+// INST.hpp
+// 飞特串行舵机协议指令定义
+// 日期: 2021.12.8
+// 作者:
 
 #ifndef FEETECH_LIB__INST_HPP_
 #define FEETECH_LIB__INST_HPP_

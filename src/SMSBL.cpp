@@ -1,9 +1,9 @@
-﻿/*
- * SMSBL.cpp
- * 飞特SMSBL系列串行舵机应用层程序
- * 日期: 2020.6.17
- * 作者:
- */
+﻿// Copyright 2025 Electrified Autonomy, LLC  // NOLINT
+//
+// SMSBL.cpp
+// 飞特SMSBL系列串行舵机应用层程序
+// 日期: 2020.6.17
+// 作者:
 
 #include "feetech_lib/SMSBL.hpp"
 
@@ -59,8 +59,8 @@ void SMSBL::SyncWritePosEx(
   uint8_t ID[], uint8_t IDN, int16_t Position[], uint16_t Speed[],
   uint8_t ACC[])
 {
-
   uint8_t offbuf[IDN][7];
+
   for(uint8_t i = 0; i < IDN; i++) {
     if(Position[i] < 0) {
       Position[i] = -Position[i];
@@ -83,7 +83,7 @@ void SMSBL::SyncWritePosEx(
     Host2SCS(bBuf + 5, bBuf + 6, V);
     memcpy(offbuf[i], bBuf, 7);
   }
-  snycWrite(ID, IDN, SMSBL_ACC, (uint8_t *)offbuf, 7);
+  syncWrite(ID, IDN, SMSBL_ACC, reinterpret_cast<uint8_t *>(offbuf), 7);
 }
 
 int32_t SMSBL::WheelMode(uint8_t ID)

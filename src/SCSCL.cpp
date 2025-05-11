@@ -1,9 +1,9 @@
-﻿/*
- * SCSCL.cpp
- * 飞特SCSCL系列串行舵机应用层程序
- * 日期: 2020.6.17
- * 作者:
- */
+﻿// Copyright 2025 Electrified Autonomy, LLC  // NOLINT
+//
+// SCSCL.cpp
+// 飞特SCSCL系列串行舵机应用层程序
+// 日期: 2020.6.17
+// 作者:
 
 #include "feetech_lib/SCSCL.hpp"
 
@@ -68,7 +68,7 @@ void SCSCL::SyncWritePos(
     Host2SCS(bBuf + 4, bBuf + 5, V);
     memcpy(offbuf[i], bBuf, 6);
   }
-  snycWrite(ID, IDN, SCSCL_GOAL_POSITION_L, (uint8_t *)offbuf, 6);
+  syncWrite(ID, IDN, SCSCL_GOAL_POSITION_L, reinterpret_cast<uint8_t *>(offbuf), 6);
 }
 
 int32_t SCSCL::PWMMode(uint8_t ID)

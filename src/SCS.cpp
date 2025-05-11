@@ -1,9 +1,9 @@
-﻿/*
- * SCS.cpp
- * 飞特串行舵机通信层协议程序
- * 日期: 2022.3.29
- * 作者:
- */
+﻿// Copyright 2025 Electrified Autonomy, LLC  // NOLINT
+//
+// SCS.cpp
+// 飞特串行舵机通信层协议程序
+// 日期: 2022.3.29
+// 作者:
 
 #include "feetech_lib/SCS.hpp"
 
@@ -14,7 +14,7 @@
 
 SCS::SCS()
 {
-  Level = 1;  //除广播指令所有指令返回应答
+  Level = 1;  // 除广播指令所有指令返回应答
   Error = 0;
 }
 
@@ -32,8 +32,8 @@ SCS::SCS(uint8_t End, uint8_t Level)
   Error = 0;
 }
 
-//1个16位数拆分为2个8位数
-//DataL为低位，DataH为高位
+// 1个16位数拆分为2个8位数
+// DataL为低位，DataH为高位
 void SCS::Host2SCS(uint8_t *DataL, uint8_t * DataH, uint16_t Data)
 {
   if(End) {
@@ -45,8 +45,8 @@ void SCS::Host2SCS(uint8_t *DataL, uint8_t * DataH, uint16_t Data)
   }
 }
 
-//2个8位数组合为1个16位数
-//DataL为低位，DataH为高位
+// 2个8位数组合为1个16位数
+// DataL为低位，DataH为高位
 uint16_t SCS::SCS2Host(uint8_t DataL, uint8_t DataH)
 {
   uint16_t Data;
@@ -92,8 +92,8 @@ void SCS::writeBuf(uint8_t ID, uint8_t MemAddr, uint8_t *nDat, uint8_t nLen, uin
   writeSCS(~CheckSum);
 }
 
-//普通写指令
-//舵机ID，MemAddr内存表地址，写入数据，写入长度
+// 普通写指令
+// 舵机ID，MemAddr内存表地址，写入数据，写入长度
 int32_t SCS::genWrite(uint8_t ID, uint8_t MemAddr, uint8_t *nDat, uint8_t nLen)
 {
   rFlushSCS();
@@ -102,8 +102,8 @@ int32_t SCS::genWrite(uint8_t ID, uint8_t MemAddr, uint8_t *nDat, uint8_t nLen)
   return Ack(ID);
 }
 
-//异步写指令
-//舵机ID，MemAddr内存表地址，写入数据，写入长度
+// 异步写指令
+// 舵机ID，MemAddr内存表地址，写入数据，写入长度
 int32_t SCS::regWrite(uint8_t ID, uint8_t MemAddr, uint8_t *nDat, uint8_t nLen)
 {
   rFlushSCS();
@@ -112,8 +112,8 @@ int32_t SCS::regWrite(uint8_t ID, uint8_t MemAddr, uint8_t *nDat, uint8_t nLen)
   return Ack(ID);
 }
 
-//异步写执行指令
-//舵机ID
+// 异步写执行指令
+// 舵机ID
 int32_t SCS::RegWriteAction(uint8_t ID)
 {
   rFlushSCS();
@@ -122,9 +122,9 @@ int32_t SCS::RegWriteAction(uint8_t ID)
   return Ack(ID);
 }
 
-//同步写指令
-//舵机ID[]数组，IDN数组长度，MemAddr内存表地址，写入数据，写入长度
-void SCS::snycWrite(uint8_t ID[], uint8_t IDN, uint8_t MemAddr, uint8_t *nDat, uint8_t nLen)
+// 同步写指令
+// 舵机ID[]数组，IDN数组长度，MemAddr内存表地址，写入数据，写入长度
+void SCS::syncWrite(uint8_t ID[], uint8_t IDN, uint8_t MemAddr, uint8_t *nDat, uint8_t nLen)
 {
   rFlushSCS();
   uint8_t mesLen = ((nLen + 1) * IDN + 4);
@@ -171,8 +171,8 @@ int32_t SCS::writeWord(uint8_t ID, uint8_t MemAddr, uint16_t wDat)
   return Ack(ID);
 }
 
-//读指令
-//舵机ID，MemAddr内存表地址，返回数据nData，数据长度nLen
+// 读指令
+// 舵机ID，MemAddr内存表地址，返回数据nData，数据长度nLen
 int32_t SCS::Read(uint8_t ID, uint8_t MemAddr, uint8_t *nData, uint8_t nLen)
 {
   rFlushSCS();
@@ -183,13 +183,9 @@ int32_t SCS::Read(uint8_t ID, uint8_t MemAddr, uint8_t *nData, uint8_t nLen)
   uint8_t i;
   uint8_t calSum = 0;
   int32_t Size = readSCS(bBuf, nLen + 6);
-  //printf("nLen+6 = %d, Size = %d\n", nLen+6, Size);
   if(Size != (nLen + 6)) {
     return 0;
   }
-  //for(i=0; i<Size; i++){
-  //printf("%x\n", bBuf[i]);
-  //}
   if(bBuf[0] != 0xff || bBuf[1] != 0xff) {
     return 0;
   }
@@ -205,7 +201,7 @@ int32_t SCS::Read(uint8_t ID, uint8_t MemAddr, uint8_t *nData, uint8_t nLen)
   return nLen;
 }
 
-//读1字节，超时返回-1
+// 读1字节，超时返回-1
 int32_t SCS::readByte(uint8_t ID, uint8_t MemAddr)
 {
   uint8_t bDat;
@@ -217,7 +213,7 @@ int32_t SCS::readByte(uint8_t ID, uint8_t MemAddr)
   }
 }
 
-//读2字节，超时返回-1
+// 读2字节，超时返回-1
 int32_t SCS::readWord(uint8_t ID, uint8_t MemAddr)
 {
   uint8_t nDat[2];
@@ -231,7 +227,7 @@ int32_t SCS::readWord(uint8_t ID, uint8_t MemAddr)
   return wDat;
 }
 
-//Ping指令，返回舵机ID，超时返回-1
+// Ping指令，返回舵机ID，超时返回-1
 int     SCS::Ping(uint8_t ID)
 {
   rFlushSCS();
