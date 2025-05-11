@@ -8,6 +8,7 @@
 #include "feetech_lib/SMSBL.hpp"
 
 #include <cstdint>
+#include <cstring>
 
 SMSBL::SMSBL()
 {

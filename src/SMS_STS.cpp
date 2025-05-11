@@ -8,6 +8,7 @@
 #include "feetech_lib/SMS_STS.hpp"
 
 #include <cstdint>
+#include <cstring>
 
 SMS_STS::SMS_STS()
 {

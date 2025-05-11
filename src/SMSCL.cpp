@@ -8,6 +8,7 @@
 #include "feetech_lib/SMSCL.hpp"
 
 #include <cstdint>
+#include <cstring>
 
 SMSCL::SMSCL()
 {

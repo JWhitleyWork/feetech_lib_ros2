@@ -34,13 +34,13 @@ protected:
   void wFlushSCS();
 
 public:
-  unsigned long int32_t IOTimeOut;  //输入输出超时
+  int64_t IOTimeOut;  //输入输出超时
   int32_t Err;
 
 public:
   virtual int32_t getErr() {return Err;}
   virtual int32_t setBaudRate(int32_t baudRate);
-  virtual bool begin(int32_t baudRate, const int8_t * serialPort);
+  virtual bool begin(int32_t baudRate, const char * serialPort);
   virtual void end();
 
 protected:

@@ -14,8 +14,8 @@ find_package(ament_cmake_auto REQUIRED)
 ament_auto_find_build_dependencies()
 
 set(FEETECH_LIB_HEADERS
-  include/feetech_lib/INST.h
-  include/feetech_lib/SCS.h
+  include/feetech_lib/INST.hpp
+  include/feetech_lib/SCS.hpp
   include/feetech_lib/SCSCL.hpp
   include/feetech_lib/SCSerial.hpp
   include/feetech_lib/SCServo.hpp
@@ -28,7 +28,6 @@ set(FEETECH_LIB_SOURCES
   src/SCS.cpp
   src/SCSCL.cpp
   src/SCSerial.cpp
-  src/SCServo.cpp
   src/SMS_STS.cpp
   src/SMSBL.cpp
   src/SMSCL.cpp
@@ -44,4 +43,6 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
-ament_auto_package()
+ament_auto_package(
+  USE_SCOPED_HEADER_INSTALL_DIR
+)

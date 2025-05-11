@@ -32,7 +32,7 @@ SCSerial::SCSerial(uint8_t End, uint8_t Level)
   txBufLen = 0;
 }
 
-bool SCSerial::begin(int32_t baudRate, const int8_t * serialPort)
+bool SCSerial::begin(int32_t baudRate, const char * serialPort)
 {
   if(fd != -1) {
     close(fd);
@@ -89,7 +89,7 @@ bool SCSerial::begin(int32_t baudRate, const int8_t * serialPort)
   curopt.c_cflag |= CREAD;
   curopt.c_cflag |= CLOCAL;  //disable modem statuc check
   cfmakeraw(&curopt);  //make raw mode
-  curopt.c_iflag &= ~(BRKint32_t | ICRNL | INPCK | ISTRIP | IXON);
+  curopt.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
   if(tcsetattr(fd, TCSANOW, &curopt) == 0) {
     return true;
   } else {

@@ -8,6 +8,7 @@
 #include "feetech_lib/SCSCL.hpp"
 
 #include <cstdint>
+#include <cstring>
 
 SCSCL::SCSCL()
 {
